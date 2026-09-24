@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>C &amp; M Karaoke Song List</title>
+<meta name="description" content="Search the full C &amp; M Entertainment karaoke song list by title or artist before you head out.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b0e15">
+<meta property="og:type" content="website">
+<meta property="og:title" content="C &amp; M Karaoke Song List">
+<meta property="og:description" content="Search the whole karaoke catalog by song or artist. Music for all events, Romeo, Michigan.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0e15'/%3E%3Crect x='24' y='9' width='16' height='28' rx='8' fill='%23ff3d57'/%3E%3Cpath d='M16 30a16 16 0 0 0 32 0M32 46v9M23 55h18' fill='none' stroke='%23ffc24b' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="songs.json" as="fetch" crossorigin>
+<script>
+/* Dark is the default (this gets used in a bar at night). Apply a saved choice before first paint. */
+try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+<style>
+  :root{
+    color-scheme:dark;
+    --bg:#0b0e15; --panel:#141924; --panel-2:#1b2231; --line:#252f41;
+    --text:#f3f6fb; --dim:#a6b1c4; --faint:#8493aa;
+    --hot:#ff3d57; --hot-btn:#e0243f; --gold:#ffc24b; --cool:#4ea6ff;
+    --code-fg:#ffc24b; --code-bg:rgba(255,194,75,.10); --code-line:rgba(255,194,75,.22);
+    --mark:rgba(255,194,75,.34); --bar:rgba(11,14,21,.88);
+    --glow-a:rgba(255,61,87,.20); --glow-b:rgba(78,166,255,.16);
+    --shadow:0 14px 34px rgba(0,0,0,.38);
+    --display:'Bebas Neue',Impact,'Arial Narrow',sans-serif;
+    --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --gutter:16px; --safe-b:env(safe-area-inset-bottom,0px);
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --bg:#f4f5f8; --panel:#ffffff; --panel-2:#eef0f5; --line:#dbe0e9;
+    --text:#111621; --dim:#4a556a; --faint:#667286;
+    --hot:#e0243f; --hot-btn:#d81f3a; --gold:#b87700; --cool:#1f7ae0;
+    --code-fg:#8a5500; --code-bg:rgba(214,140,0,.11); --code-line:rgba(160,100,0,.28);
+    --mark:rgba(255,194,75,.55); --bar:rgba(244,245,248,.9);
+    --glow-a:rgba(255,61,87,.11); --glow-b:rgba(78,166,255,.11);
+    --shadow:0 12px 28px rgba(30,40,70,.10);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg); -webkit-text-size-adjust:100%; scroll-padding-top:84px}
+  body{
+    margin:0; min-height:100vh; min-height:100dvh; color:var(--text); background:var(--bg);
+    font-family:var(--sans); font-size:16px; line-height:1.45; -webkit-tap-highlight-color:transparent;
+    overflow-wrap:break-word;
+  }
+  body::before{ /* stage light wash */
+    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(60rem 26rem at 12% -8%, var(--glow-a), transparent 62%),
+      radial-gradient(48rem 24rem at 96% -4%, var(--glow-b), transparent 62%);
+  }
+  button{font-family:inherit; color:inherit}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--hot); outline-offset:2px}
+  .wrap{width:100%; max-width:64rem; margin-inline:auto; padding-inline:max(var(--gutter),env(safe-area-inset-left)) max(var(--gutter),env(safe-area-inset-right))}
+  .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+  /* top bar */
+  .top{display:flex; align-items:center; gap:10px; padding-block:calc(12px + env(safe-area-inset-top,0px)) 6px}
+  .brand{display:flex; align-items:center; gap:9px; min-height:40px; margin-right:auto; text-decoration:none; min-width:0}
+  .brand svg{flex:none; width:26px; height:26px}
+  .brand .n{font-family:var(--display); font-size:27px; letter-spacing:.05em; line-height:1; white-space:nowrap}
+  .brand .n b{color:var(--hot); font-weight:400}
+  .pill,.iconbtn{
+    display:inline-flex; align-items:center; justify-content:center; gap:7px; height:40px;
+    border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--text);
+    font-size:14px; font-weight:600; text-decoration:none; cursor:pointer;
+  }
+  .pill{padding:0 15px}
+  .pill svg,.iconbtn svg{width:17px; height:17px; flex:none}
+  .pill.call{background:var(--hot-btn); border-color:transparent; color:#fff}
+  .iconbtn{width:40px; padding:0}
+  .iconbtn .sun{display:none}
+  :root[data-theme="light"] .iconbtn .sun{display:block}
+  :root[data-theme="light"] .iconbtn .moon{display:none}
+
+  /* hero (collapses once someone starts searching) */
+  .hero{display:grid; grid-template-rows:1fr; opacity:1}
+  .hero>div{min-height:0; overflow:hidden}
+  .hero .in{padding:22px 0 20px; text-align:center}
+  .eyebrow{display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--dim)}
+  .eyebrow i{width:7px; height:7px; border-radius:50%; background:var(--hot); box-shadow:0 0 0 4px rgba(255,61,87,.2)}
+  h1{margin:12px 0 0; font-family:var(--display); font-weight:400; font-size:clamp(56px,17vw,112px); line-height:.9; letter-spacing:.02em}
+  h1 em{font-style:normal; color:var(--hot)}
+  :root:not([data-theme="light"]) h1 em{text-shadow:0 0 34px rgba(255,61,87,.5)}
+  .lede{margin:14px auto 0; max-width:30rem; color:var(--dim); font-size:16.5px}
+  .lede b{color:var(--text); font-weight:600; font-variant-numeric:tabular-nums}
+
+  /* search */
+  .searchbar{position:sticky; top:0; z-index:20; padding-block:10px 8px; background:var(--bar);
+             -webkit-backdrop-filter:saturate(1.4) blur(14px); backdrop-filter:saturate(1.4) blur(14px);
+             border-bottom:1px solid transparent}
+  .searchbar.stuck{border-bottom-color:var(--line)}
+  .field{position:relative; max-width:42rem; margin-inline:auto}
+  .field>svg{position:absolute; left:17px; top:50%; width:20px; height:20px; transform:translateY(-50%); color:var(--faint); pointer-events:none}
+  #q{
+    width:100%; height:58px; padding:0 54px 0 48px; font:500 17px/1 var(--sans); color:var(--text);
+    background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    box-shadow:var(--shadow); -webkit-appearance:none; appearance:none;
+  }
+  #q::placeholder{color:var(--faint); font-weight:400}
+  #q::-webkit-search-cancel-button,#q::-webkit-search-decoration{-webkit-appearance:none; display:none}
+  #q::-ms-clear{display:none}
+  #q:focus{outline:none; border-color:var(--hot); box-shadow:0 0 0 4px rgba(255,61,87,.22), var(--shadow)}
+  #clr{position:absolute; right:6px; top:50%; transform:translateY(-50%); display:none; place-items:center;
+       width:44px; height:44px; border:0; background:none; color:var(--dim); cursor:pointer; border-radius:50%}
+  #clr span{display:grid; place-items:center; width:26px; height:26px; border-radius:50%; background:var(--panel-2); font-size:18px; line-height:1}
+  .meta{display:flex; justify-content:space-between; gap:12px; max-width:42rem; margin:9px auto 0; padding-inline:4px;
+        font-size:13px; color:var(--faint); font-variant-numeric:tabular-nums; min-height:18px}
+  .meta b{color:var(--gold); font-weight:700}
+  :root[data-theme="light"] .meta b{color:var(--code-fg)}
+
+  body.searching .hero{grid-template-rows:0fr; opacity:0}
+  @media (prefers-reduced-motion:no-preference){
+    .hero{transition:grid-template-rows .32s ease, opacity .2s ease}
+    .chip,.pill,.iconbtn,.song{transition:border-color .15s, background-color .15s, transform .12s}
+    .pill:active,.chip:active,.more:active{transform:scale(.97)}
+    .skel i{animation:sh 1.3s ease-in-out infinite}
+    @keyframes sh{0%,100%{opacity:.5}50%{opacity:1}}
+  }
+
+  /* welcome state */
+  .welcome{padding:6px 0 10px; text-align:center}
+  .welcome h2{margin:22px 0 10px; font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--faint)}
+  .chips{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:44rem; margin-inline:auto}
+  .chip{min-height:40px; padding:0 15px; border:1px solid var(--line); border-radius:999px; background:var(--panel);
+        color:var(--dim); font-size:14.5px; font-weight:500; cursor:pointer}
+  .chip:hover{border-color:var(--hot); color:var(--text)}
+
+  /* results */
+  main{padding-block:12px 8px; min-height:40vh}
+  .list{display:flex; gap:12px; align-items:flex-start}
+  .col{flex:1 1 0; min-width:0; list-style:none; margin:0; padding:0; display:grid; gap:10px}
+  .song{padding:13px 16px 8px; background:var(--panel); border:1px solid var(--line); border-radius:14px}
+  .song:hover{border-color:color-mix(in srgb,var(--hot) 45%,var(--line))}
+  .st{margin:0 0 6px; font-size:17.5px; font-weight:650; line-height:1.25}
+  .vers{list-style:none; margin:0; padding:0}
+  .vers li{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:8px 0; border-top:1px solid var(--line)}
+  .vers li:first-child{border-top:0; padding-top:2px}
+  .ar{flex:1; min-width:0; color:var(--dim); font-size:15px}
+  .ar i{font-style:normal; color:var(--faint)}
+  .alt .ar{color:var(--faint)}
+  .codes{display:flex; flex-wrap:wrap; justify-content:flex-end; gap:5px; flex:none; max-width:52%}
+  .codes code{font:600 12px/1 ui-monospace,'SF Mono',Menlo,Consolas,monospace; letter-spacing:.02em; padding:5px 8px; border-radius:7px;
+              color:var(--code-fg); background:var(--code-bg); border:1px solid var(--code-line); white-space:nowrap}
+  mark{background:var(--mark); color:inherit; border-radius:3px; padding:0 1px}
+  .more{display:block; margin:16px auto 6px; min-height:48px; padding:0 26px; border:1px solid var(--line); border-radius:999px;
+        background:var(--panel); font-size:15px; font-weight:600; cursor:pointer}
+  .more:hover{border-color:var(--hot)}
+  .more small{color:var(--faint); font-weight:500; margin-left:6px}
+  .none{padding:34px 8px; text-align:center; color:var(--dim)}
+  .none .big{font-family:var(--display); font-size:34px; color:var(--text); letter-spacing:.03em; line-height:1.05}
+  .none p{margin:10px auto 18px; max-width:26rem}
+  .skel{display:grid; gap:10px}
+  .skel i{display:block; height:74px; border-radius:14px; background:var(--panel); border:1px solid var(--line)}
+  .skel i:nth-child(2){opacity:.75} .skel i:nth-child(3){opacity:.55}
+
+  /* contact */
+  .book{margin-top:34px; padding:26px 22px; border-radius:20px; text-align:center;
+        background:linear-gradient(160deg,var(--panel),var(--panel-2)); border:1px solid var(--line); box-shadow:var(--shadow)}
+  .book h2{margin:0; font-family:var(--display); font-weight:400; font-size:clamp(34px,8vw,48px); letter-spacing:.03em; line-height:1}
+  .book h2 em{font-style:normal; color:var(--hot)}
+  .book p{margin:10px auto 18px; max-width:30rem; color:var(--dim)}
+  .actions{display:flex; flex-wrap:wrap; justify-content:center; gap:10px}
+  .actions .pill{height:48px; padding:0 22px; font-size:15px}
+  @media (max-width:520px){ .actions{display:grid; grid-template-columns:1fr 1fr} .actions .call{grid-column:1/-1} .actions .pill{padding:0 12px} }
+  footer{padding:22px 0 calc(34px + var(--safe-b)); color:var(--faint); font-size:13px; text-align:center}
+  footer b{color:var(--dim); font-weight:600}
+  footer p{margin:4px 0}
+
+  .totop{position:fixed; right:max(16px,env(safe-area-inset-right)); bottom:calc(16px + var(--safe-b)); z-index:30; width:48px; height:48px;
+         display:none; place-items:center; border-radius:50%; border:1px solid var(--line); background:var(--panel); box-shadow:var(--shadow); cursor:pointer}
+  .totop.on{display:grid}
+  .totop svg{width:20px; height:20px}
+
+  @media (min-width:820px){
+    :root{--gutter:28px}
+    .hero .in{padding:38px 0 30px}
+    .lede{font-size:18px}
+    #q{height:64px; font-size:18px}
+    .book{padding:38px 30px}
+  }
+  @media (max-width:359px){
+    :root{--gutter:12px}
+    .pill.call span{display:none}
+    .pill.call{width:40px; padding:0}
+    .brand .n{font-size:24px}
+    .codes{max-width:48%}
+  }
+  @media (hover:none){ .song:hover{border-color:var(--line)} .chip:hover{border-color:var(--line); color:var(--dim)} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="./" aria-label="C &amp; M Karaoke, home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="24" y="6" width="16" height="30" rx="8" fill="#ff3d57"/><path d="M15 28a17 17 0 0 0 34 0M32 45v11M22 56h20" fill="none" stroke="#ffc24b" stroke-width="4.5" stroke-linecap="round"/></svg>
+      <span class="n">C &amp; M <b>KARAOKE</b></span>
+    </a>
+    <a class="pill call" href="tel:+15865313100" aria-label="Call C &amp; M Entertainment">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+      <span>Call</span>
+    </a>
+    <button class="iconbtn" id="theme" type="button" aria-label="Switch between dark and light mode">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+
+  <section class="hero" aria-label="Introduction">
+    <div><div class="in">
+      <div class="eyebrow"><i></i>Karaoke song list</div>
+      <h1>Find your <em>song.</em></h1>
+      <p class="lede">Search <b id="total">the whole catalog</b> by song or artist, in any order, and know it&rsquo;s on the machine before you head out.</p>
+    </div></div>
+  </section>
+</div>
+
+<div class="searchbar" id="sbar">
+  <div class="wrap">
+    <form class="field" role="search" id="form" action="#" autocomplete="off">
+      <label class="sr" for="q">Search songs and artists</label>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" name="q" placeholder="Try a song, or an artist" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" inputmode="search">
+      <button id="clr" type="button" aria-label="Clear search"><span aria-hidden="true">&times;</span></button>
+    </form>
+    <div class="meta"><div id="stat" role="status" aria-live="polite">Loading the song list&hellip;</div><div id="note"></div></div>
+  </div>
+</div>
+
+<main class="wrap" id="main">
+  <div id="results">
+    <div class="skel" aria-hidden="true"><i></i><i></i><i></i></div>
+  </div>
+
+  <section class="book" aria-labelledby="book-h">
+    <h2 id="book-h">Need a KJ or a DJ for <em>your</em> night?</h2>
+    <p>C &amp; M Entertainment brings the music to bars, parties and private events. Music for all events, based in Romeo, Michigan.</p>
+    <div class="actions">
+      <a class="pill call" href="tel:+15865313100"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>(586) 531-3100</a>
+      <a class="pill" href="sms:+15865313100"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Text</a>
+      <a class="pill" id="mail" href="tel:+15865313100" data-u="kjdjmike" data-d="yahoo.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p><b>C &amp; M Entertainment</b> &middot; Music for all events &middot; Romeo, Michigan</p>
+  <p>Can&rsquo;t find something? Ask the KJ. New discs go in all the time.</p>
+</footer>
+
+<button class="totop" id="totop" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 15 7-7 7 7"/></svg></button>
+
+<noscript><p style="text-align:center;padding:24px;color:#a6b1c4">The song search needs JavaScript. To ask about a song, call (586) 531-3100.</p></noscript>
+
+<script>
+(function(){
+  'use strict';
+  var $=function(id){return document.getElementById(id);};
+  var Q=$('q'), RES=$('results'), STAT=$('stat'), NOTE=$('note'), CLR=$('clr'), SBAR=$('sbar'),
+      TOP=$('totop'), TOTAL=$('total'), FORM=$('form'), THEME=$('theme');
+  var PAGE=50, DATA=[], READY=false, hits=[], shown=0, toks=[], curQ='';
+
+  /* ---------- text helpers ---------- */
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function strip(s){return s.normalize?s.normalize('NFD').replace(/[̀-ͯ]/g,''):s;}
+  /* lowercase, no accents, apostrophes dropped, punctuation to spaces: "Don't" -> "dont", "Rock-a-bye" -> "rock a bye" */
+  function norm(s){return strip(s).toLowerCase().replace(/['’`]/g,'').replace(/&/g,' and ').replace(/[^a-z0-9]+/g,' ').trim();}
+  function nfmt(n){return n.toLocaleString('en-US');}
+
+  /* The catalog lists artists as "Last, First". People type "First Last". Show it the friendly way (search handles both). */
+  function pretty(n){
+    if(!n||/^Duet:/i.test(n)) return n;
+    var base=n, tail='', pm=n.match(/^(.*?)\s*(\([^)]*\))\s*$/);
+    if(pm){ base=pm[1]; tail=' '+pm[2]; }
+    var c=base.split(', '), bm;
+    if(c.length===2 && c[0] && (bm=c[1].match(/^([^&\d]+?)\s+(?:&|and)\s+((?:The|His|Her)\s.+)$/i)) && bm[1].split(' ').length<=3){
+      base=bm[1]+' '+c[0]+' & '+bm[2];   /* "Petty, Tom & The Heartbreakers" */
+    } else if(c.length===2 && c[0] && c[1] && !/[&\/\d]|\band\b/i.test(c[1]) && !/^the\s+\S/i.test(c[1])){
+      var suf=c[1].match(/^(.*?)\s+(Jr\.?|Sr\.?|II|III|IV)$/i);
+      if((suf?suf[1]:c[1]).split(' ').length<=2) base=suf ? suf[1]+' '+c[0]+' '+suf[2] : c[1]+' '+c[0]; /* longer tails are usually band or duet text: leave as printed */
+    }
+    return base+tail;
+  }
+
+  /* A few entries in the source PDF came through with the disc code glued into the artist name. Tidy on display. */
+  var CODE_OK=/^[A-Z][A-Z0-9]{0,4} ?\d{1,5}-\d{1,3}$/;
+  function tidyCode(c){ c=c.trim(); if(!c||CODE_OK.test(c)) return c; var m=c.match(/\d{3,5}-\d{1,3}$/); return m?m[0]:''; }
+  function cleanVersion(name,code){
+    name=(name||'').replace(/\s+$/,'');
+    var m=name.match(/^(.*?\S)\s{2,}(.+)$/);
+    if(m){ name=m[1]; if(!code&&/\d{4}-\d\d$/.test(m[2])) code=m[2]; }
+    if(/\d{4}-\d\d\s*$/.test(name) && !/[A-Za-z]{4,}/.test(name.replace(/\d{4}-\d\d\s*$/,''))){
+      code=code?code+'|'+name:name; name='';
+    }
+    var codes=[]; (code||'').split('|').forEach(function(x){ x=tidyCode(x); if(x&&codes.indexOf(x)<0) codes.push(x); });
+    return {n:name, codes:codes};
+  }
+
+  function hl(text,tk){
+    if(!tk.length) return esc(text);
+    var nm='', map=[], i, b;
+    for(i=0;i<text.length;i++){
+      b=strip(text.charAt(i)).toLowerCase();
+      if(b==="'"||b==='’'||b==='`') continue;
+      nm+=/^[a-z0-9]$/.test(b)?b:' '; map.push(i);
+    }
+    var r=[], t, p;
+    for(i=0;i<tk.length;i++){
+      t=tk[i]; p=(' '+nm).indexOf(' '+t);
+      if(p<0) p=nm.indexOf(t);
+      if(p>-1) r.push([map[p], map[p+t.length-1]+1]);
+    }
+    if(!r.length) return esc(text);
+    r.sort(function(a,b){return a[0]-b[0];});
+    var out='', pos=0, s, e;
+    for(i=0;i<r.length;i++){
+      s=Math.max(r[i][0],pos); e=r[i][1];
+      if(e<=s) continue;
+      out+=esc(text.slice(pos,s))+'<mark>'+esc(text.slice(s,e))+'</mark>'; pos=e;
+    }
+    return out+esc(text.slice(pos));
+  }
+
+  /* ---------- search ---------- */
+  function score(d,tk,qn){
+    var s=0, A=d.an, i, t, words, all;
+    for(i=0;i<tk.length;i++){
+      t=tk[i]; if(t==='the') continue;
+      if(d.tn.indexOf(t)===0) s+=6; else if((' '+d.tn).indexOf(' '+t)>-1) s+=4; else if(d.tn.indexOf(t)>-1) s+=1;
+      if(A.indexOf(' '+t)>-1||d.ac.indexOf(' '+t)>-1) s+=3;
+    }
+    if(d.tn===qn) s+=30; else if(d.tn.indexOf(qn)===0) s+=10;
+    var core=tk.filter(function(t){return t!=='the';});
+    if(core.length){
+      for(i=0;i<d.v.length;i++){
+        if(d.v[i].cn===core.join('')){ s+=12; break; }
+        words=d.v[i].nn.split(' ').filter(function(w){return w!=='the';});
+        if(words.length===core.length){
+          all=core.every(function(t){return words.indexOf(t)>-1;});
+          if(all){ s+=12; break; }
+        }
+      }
+    }
+    return s;
+  }
+
+  function run(qs){
+    var tk=norm(qs).split(' ').filter(Boolean), qn=tk.join(' ');
+    toks=tk; var found=[], n=DATA.length, i, j, d, ok, fb=tk.length===1;
+    for(i=0;i<n;i++){
+      d=DATA[i]; ok=true;
+      for(j=0;j<tk.length;j++){ if(d.h.indexOf(tk[j])<0 && !(fb && d.ac.indexOf(tk[j])>-1)){ ok=false; break; } /* one-word fallback: "acdc" finds "AC DC" */ }
+      if(ok){ d.s=score(d,tk,qn); found.push(d); }
+    }
+    found.sort(function(a,b){return b.s-a.s;}); /* stable: ties stay in catalog (A-Z) order */
+    return found;
+  }
+
+  /* ---------- rendering ---------- */
+  function songHTML(d){
+    var vs=d.v, any=false, all=true, k;
+    var flags=vs.map(function(v){
+      var m=toks.some(function(t){return v.nn.indexOf(t)>-1;});
+      if(m) any=true; else all=false; return m;
+    });
+    var order=vs.map(function(v,i){return i;});
+    if(any&&!all) order.sort(function(a,b){return (flags[b]?1:0)-(flags[a]?1:0)||a-b;});
+    var rows=order.map(function(i){
+      var v=vs[i], nm=v.n?hl(v.p,toks):'<i>Another version</i>';
+      var codes=v.codes.map(function(c){return '<code>'+esc(c)+'</code>';}).join('');
+      return '<li'+((any&&!all&&!flags[i])?' class="alt"':'')+'><span class="ar">'+nm+'</span>'+(codes?'<span class="codes">'+codes+'</span>':'')+'</li>';
+    }).join('');
+    return '<li class="song"><h3 class="st">'+hl(d.t,toks)+'</h3><ul class="vers">'+rows+'</ul></li>';
+  }
+
+  function welcome(){
+    var songs=[['Sweet Caroline'],['Piano Man'],['Don’t Stop Believin’'],['Friends In Low Places'],['Take Me Home Country Roads'],['Livin’ On A Prayer'],['Wagon Wheel'],['Mr. Brightside'],['I Will Survive'],['Ring Of Fire'],['Sweet Home Alabama']];
+    var artists=['George Strait','The Beatles','Elvis Presley','Garth Brooks','Dolly Parton','Johnny Cash','Frank Sinatra','Taylor Swift','Shania Twain','Journey','Bon Jovi','Whitney Houston','Elton John','Queen','ABBA','Kenny Chesney','Alan Jackson','Reba McEntire'];
+    function live(list){
+      var seen={}, out=[];
+      list.forEach(function(x){
+        var q=Array.isArray(x)?x[0]:x; if(seen[q]) return; seen[q]=1;
+        var tk=norm(q).split(' '), has=DATA.some(function(d){return tk.every(function(t){return d.h.indexOf(t)>-1;});});
+        if(has) out.push(q);
+      });
+      return out;
+    }
+    function chips(list,max){return list.slice(0,max).map(function(s){return '<button class="chip" type="button" data-s="'+esc(s)+'">'+esc(s)+'</button>';}).join('');}
+    RES.innerHTML='<div class="welcome">'+
+      '<h2>Crowd favorites</h2><div class="chips">'+chips(live(songs),8)+'</div>'+
+      '<h2>Popular artists</h2><div class="chips">'+chips(live(artists),10)+'</div></div>';
+  }
+
+  function moreBtn(){
+    var left=hits.length-shown;
+    return left>0?'<button class="more" type="button" id="more">Show more<small>'+nfmt(left)+' left</small></button>':'';
+  }
+  function cols(){ return window.matchMedia('(min-width:820px)').matches?2:1; }
+  /* masonry: drop each card into the shorter column, so short cards don't stretch to match tall ones */
+  function paint(append,count){
+    var from=append?shown:0, chunk=hits.slice(from, from+(count||PAGE)), old=$('more');
+    if(old) old.parentNode.removeChild(old);
+    if(!append){ var h='', k=cols(); while(k--) h+='<ol class="col"></ol>'; RES.innerHTML='<div class="list">'+h+'</div>'; }
+    var list=RES.querySelector('.list'), cs=[].slice.call(list.children);
+    chunk.forEach(function(d){
+      var best=cs[0]; for(var i=1;i<cs.length;i++) if(cs[i].offsetHeight<best.offsetHeight) best=cs[i];
+      best.insertAdjacentHTML('beforeend',songHTML(d));
+    });
+    shown=from+chunk.length;
+    list.insertAdjacentHTML('afterend',moreBtn());
+  }
+
+  function render(qs){
+    if(!READY) return;
+    curQ=qs; var trimmed=qs.trim();
+    CLR.style.display=qs?'grid':'none';
+    document.body.classList.toggle('searching',!!trimmed);
+    NOTE.textContent='';
+    if(!trimmed){
+      toks=[]; hits=[]; shown=0; welcome();
+      STAT.textContent=nfmt(DATA.length)+' songs on the machine'; return;
+    }
+    var nq=norm(trimmed);
+    if(nq.length<2){ toks=[]; hits=[]; shown=0; RES.innerHTML=''; STAT.textContent='Keep typing…'; return; }
+    hits=run(qs); shown=0;
+    if(!hits.length){
+      STAT.textContent='No matches';
+      RES.innerHTML='<div class="none"><div class="big">Nothing for “'+esc(trimmed)+'”</div>'+
+        '<p>Try fewer words, or just the artist’s last name. If it’s still not there, ask the KJ. New discs go in all the time.</p>'+
+        '<a class="pill call" href="tel:+15865313100">Call (586) 531-3100</a></div>';
+      return;
+    }
+    STAT.innerHTML='<b>'+nfmt(hits.length)+'</b> '+(hits.length===1?'song':'songs')+' found';
+    NOTE.textContent=hits.length>1?'Best matches first':'';
+    paint(false);
+  }
+
+  /* ---------- wiring ---------- */
+  var timer=null, urlTimer=null;
+  function syncURL(){
+    clearTimeout(urlTimer);
+    urlTimer=setTimeout(function(){
+      try{ var u=new URL(location.href); if(Q.value.trim()) u.searchParams.set('q',Q.value.trim()); else u.searchParams.delete('q'); history.replaceState(null,'',u); }catch(e){}
+    },400);
+  }
+  Q.addEventListener('input',function(){ clearTimeout(timer); timer=setTimeout(function(){render(Q.value); syncURL();},90); CLR.style.display=Q.value?'grid':'none'; });
+  FORM.addEventListener('submit',function(e){ e.preventDefault(); clearTimeout(timer); render(Q.value); Q.blur(); }); /* Enter drops the phone keyboard so the results are visible */
+  CLR.addEventListener('click',function(){ Q.value=''; render(''); syncURL(); Q.focus(); });
+  RES.addEventListener('click',function(e){
+    var c=e.target.closest('.chip');
+    if(c){ Q.value=c.getAttribute('data-s'); render(Q.value); syncURL(); window.scrollTo(0,0); return; }
+    if(e.target.closest('#more')){ paint(true); }
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='/' && document.activeElement!==Q && !e.metaKey && !e.ctrlKey){ e.preventDefault(); Q.focus(); }
+    else if(e.key==='Escape' && document.activeElement===Q && Q.value){ Q.value=''; render(''); syncURL(); }
+  });
+
+  THEME.addEventListener('click',function(){
+    var next=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';
+    document.documentElement.setAttribute('data-theme',next);
+    try{ localStorage.setItem('cm-theme',next); }catch(e){}
+    var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content',next==='light'?'#f4f5f8':'#0b0e15');
+  });
+  (function(){ var m=document.querySelector('meta[name="theme-color"]'); if(m&&document.documentElement.getAttribute('data-theme')==='light') m.setAttribute('content','#f4f5f8'); })();
+
+  var mq=window.matchMedia('(min-width:820px)');
+  function reflow(){ if(READY&&hits.length) paint(false,shown); }
+  if(mq.addEventListener) mq.addEventListener('change',reflow); else if(mq.addListener) mq.addListener(reflow);
+
+  var ticking=false;
+  function onScroll(){
+    if(ticking) return; ticking=true;
+    requestAnimationFrame(function(){
+      ticking=false;
+      SBAR.classList.toggle('stuck', SBAR.getBoundingClientRect().top<=0.5);
+      TOP.classList.toggle('on', window.scrollY>900);
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  TOP.addEventListener('click',function(){ window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'}); });
+
+  /* address assembled here so Cloudflare's email obfuscation has nothing to rewrite */
+  (function(){ var m=$('mail'); if(m) m.href='mailto:'+m.getAttribute('data-u')+'@'+m.getAttribute('data-d'); })();
+
+  /* ---------- load ---------- */
+  function load(){
+    fetch('songs.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(raw){
+      DATA=new Array(raw.length);
+      for(var i=0;i<raw.length;i++){
+        var t=raw[i][0], arts=raw[i][1], v=[], j, cv, names=[];
+        for(j=0;j<arts.length;j++){
+          cv=cleanVersion(arts[j][0],arts[j][1]);
+          var nn=norm(cv.n); v.push({n:cv.n, p:pretty(cv.n), nn:nn, cn:nn.replace(/ /g,''), codes:cv.codes});
+          if(cv.n) names.push(nn);
+        }
+        var tn=norm(t), an=' '+names.join(' | '), ac=' '+names.map(function(x){return x.replace(/ /g,'');}).join(' ');
+        DATA[i]={t:t, tn:tn, v:v, an:an, ac:ac, h:tn+' |'+an, s:0};
+      }
+      READY=true;
+      TOTAL.textContent=nfmt(DATA.length)+' karaoke songs';
+      var q0=''; try{ q0=new URL(location.href).searchParams.get('q')||''; }catch(e){}
+      Q.value=q0; render(q0); onScroll();
+    }).catch(function(){
+      RES.innerHTML='<div class="none"><div class="big">The list didn’t load</div><p>Check your connection and try again.</p><button class="pill" type="button" id="retry">Try again</button></div>';
+      STAT.textContent='';
+      var rb=$('retry'); if(rb) rb.addEventListener('click',function(){ RES.innerHTML='<div class="skel" aria-hidden="true"><i></i><i></i><i></i></div>'; STAT.textContent='Loading the song list…'; load(); });
+    });
+  }
+  load();
+})();
+</script>
+</body>
+</html>
