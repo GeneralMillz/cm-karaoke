@@ -21,6 +21,19 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
 </script>
 <style>
   :root{
+    color-scheme:light;
+    --bg:#f4eee3; --panel:#fffaf0; --panel-2:#eadcc8; --line:#d7c5ae;
+    --text:#261d18; --dim:#6d594b; --faint:#927b69;
+    --hot:#c52e3f; --hot-btn:#b32437; --gold:#a86e12; --cool:#236d9f;
+    --code-fg:#87580c; --code-bg:rgba(168,110,18,.10); --code-line:rgba(168,110,18,.25);
+    --mark:rgba(224,174,65,.42); --bar:rgba(244,238,227,.92);
+    --glow-a:rgba(197,46,63,.10); --glow-b:rgba(168,110,18,.08);
+    --shadow:0 12px 26px rgba(86,56,27,.12);
+    --display:'Bebas Neue',Impact,'Arial Narrow',sans-serif;
+    --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    --gutter:16px; --safe-b:env(safe-area-inset-bottom,0px);
+  }
+  :root[data-theme="dark"]{
     color-scheme:dark;
     --bg:#0b0e15; --panel:#141924; --panel-2:#1b2231; --line:#252f41;
     --text:#f3f6fb; --dim:#a6b1c4; --faint:#8493aa;
@@ -29,19 +42,6 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
     --mark:rgba(255,194,75,.34); --bar:rgba(11,14,21,.88);
     --glow-a:rgba(255,61,87,.20); --glow-b:rgba(78,166,255,.16);
     --shadow:0 14px 34px rgba(0,0,0,.38);
-    --display:'Bebas Neue',Impact,'Arial Narrow',sans-serif;
-    --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-    --gutter:16px; --safe-b:env(safe-area-inset-bottom,0px);
-  }
-  :root[data-theme="light"]{
-    color-scheme:light;
-    --bg:#f4f5f8; --panel:#ffffff; --panel-2:#eef0f5; --line:#dbe0e9;
-    --text:#111621; --dim:#4a556a; --faint:#667286;
-    --hot:#e0243f; --hot-btn:#d81f3a; --gold:#b87700; --cool:#1f7ae0;
-    --code-fg:#8a5500; --code-bg:rgba(214,140,0,.11); --code-line:rgba(160,100,0,.28);
-    --mark:rgba(255,194,75,.55); --bar:rgba(244,245,248,.9);
-    --glow-a:rgba(255,61,87,.11); --glow-b:rgba(78,166,255,.11);
-    --shadow:0 12px 28px rgba(30,40,70,.10);
   }
   *{box-sizing:border-box}
   html{background:var(--bg); -webkit-text-size-adjust:100%; scroll-padding-top:84px}
@@ -50,11 +50,11 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
     font-family:var(--sans); font-size:16px; line-height:1.45; -webkit-tap-highlight-color:transparent;
     overflow-wrap:break-word;
   }
-  body::before{ /* stage light wash */
+  body::before{ /* quiet paper texture */
     content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
     background:
-      radial-gradient(60rem 26rem at 12% -8%, var(--glow-a), transparent 62%),
-      radial-gradient(48rem 24rem at 96% -4%, var(--glow-b), transparent 62%);
+      linear-gradient(115deg, var(--glow-a), transparent 38%),
+      repeating-linear-gradient(0deg, rgba(120,80,35,.025) 0 1px, transparent 1px 5px);
   }
   button{font-family:inherit; color:inherit}
   a{color:inherit}
@@ -70,7 +70,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   .brand .n b{color:var(--hot); font-weight:400}
   .pill,.iconbtn{
     display:inline-flex; align-items:center; justify-content:center; gap:7px; height:40px;
-    border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--text);
+    border-radius:6px; border:1px solid var(--line); background:var(--panel); color:var(--text);
     font-size:14px; font-weight:600; text-decoration:none; cursor:pointer;
   }
   .pill{padding:0 15px}
@@ -84,13 +84,13 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   /* hero (collapses once someone starts searching) */
   .hero{display:grid; grid-template-rows:1fr; opacity:1}
   .hero>div{min-height:0; overflow:hidden}
-  .hero .in{padding:22px 0 20px; text-align:center}
+  .hero .in{padding:18px 0 12px; text-align:left}
   .eyebrow{display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--dim)}
   .eyebrow i{width:7px; height:7px; border-radius:50%; background:var(--hot); box-shadow:0 0 0 4px rgba(255,61,87,.2)}
-  h1{margin:12px 0 0; font-family:var(--display); font-weight:400; font-size:clamp(56px,17vw,112px); line-height:.9; letter-spacing:.02em}
+  h1{margin:12px 0 0; max-width:34rem; font-family:var(--display); font-weight:400; font-size:clamp(56px,17vw,112px); line-height:.9; letter-spacing:.02em}
   h1 em{font-style:normal; color:var(--hot)}
   :root:not([data-theme="light"]) h1 em{text-shadow:0 0 34px rgba(255,61,87,.5)}
-  .lede{margin:14px auto 0; max-width:30rem; color:var(--dim); font-size:16.5px}
+  .lede{margin:14px 0 0; max-width:34rem; color:var(--dim); font-size:16.5px}
   .lede b{color:var(--text); font-weight:600; font-variant-numeric:tabular-nums}
 
   /* search */
@@ -102,7 +102,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   .field>svg{position:absolute; left:17px; top:50%; width:20px; height:20px; transform:translateY(-50%); color:var(--faint); pointer-events:none}
   #q{
     width:100%; height:58px; padding:0 54px 0 48px; font:500 17px/1 var(--sans); color:var(--text);
-    background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    background:var(--panel); border:2px solid var(--text); border-radius:6px;
     box-shadow:var(--shadow); -webkit-appearance:none; appearance:none;
   }
   #q::placeholder{color:var(--faint); font-weight:400}
@@ -130,7 +130,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   .welcome{padding:6px 0 10px; text-align:center}
   .welcome h2{margin:22px 0 10px; font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--faint)}
   .chips{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:44rem; margin-inline:auto}
-  .chip{min-height:40px; padding:0 15px; border:1px solid var(--line); border-radius:999px; background:var(--panel);
+  .chip{min-height:40px; padding:0 15px; border:1px solid var(--line); border-radius:6px; background:var(--panel);
         color:var(--dim); font-size:14.5px; font-weight:500; cursor:pointer}
   .chip:hover{border-color:var(--hot); color:var(--text)}
 
@@ -138,7 +138,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   main{padding-block:12px 8px; min-height:40vh}
   .list{display:flex; gap:12px; align-items:flex-start}
   .col{flex:1 1 0; min-width:0; list-style:none; margin:0; padding:0; display:grid; gap:10px}
-  .song{padding:13px 16px 8px; background:var(--panel); border:1px solid var(--line); border-radius:14px}
+  .song{padding:13px 16px 8px; background:var(--panel); border:1px solid var(--line); border-radius:6px}
   .song:hover{border-color:color-mix(in srgb,var(--hot) 45%,var(--line))}
   .st{margin:0 0 6px; font-size:17.5px; font-weight:650; line-height:1.25}
   .vers{list-style:none; margin:0; padding:0}
@@ -151,7 +151,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   .codes code{font:600 12px/1 ui-monospace,'SF Mono',Menlo,Consolas,monospace; letter-spacing:.02em; padding:5px 8px; border-radius:7px;
               color:var(--code-fg); background:var(--code-bg); border:1px solid var(--code-line); white-space:nowrap}
   mark{background:var(--mark); color:inherit; border-radius:3px; padding:0 1px}
-  .more{display:block; margin:16px auto 6px; min-height:48px; padding:0 26px; border:1px solid var(--line); border-radius:999px;
+  .more{display:block; margin:16px auto 6px; min-height:48px; padding:0 26px; border:1px solid var(--line); border-radius:6px;
         background:var(--panel); font-size:15px; font-weight:600; cursor:pointer}
   .more:hover{border-color:var(--hot)}
   .more small{color:var(--faint); font-weight:500; margin-left:6px}
@@ -217,9 +217,9 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
 
   <section class="hero" aria-label="Introduction">
     <div><div class="in">
-      <div class="eyebrow"><i></i>Karaoke song list</div>
-      <h1>Find your <em>song.</em></h1>
-      <p class="lede">Search <b id="total">the whole catalog</b> by song or artist, in any order, and know it&rsquo;s on the machine before you head out.</p>
+      <div class="eyebrow"><i></i>C &amp; M Entertainment &middot; Romeo, Michigan</div>
+      <h1>What are you <em>singing?</em></h1>
+      <p class="lede">Search <b id="total">the whole catalog</b> by title or artist. Find your request before you head out.</p>
     </div></div>
   </section>
 </div>
@@ -255,6 +255,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
 <footer class="wrap">
   <p><b>C &amp; M Entertainment</b> &middot; Music for all events &middot; Romeo, Michigan</p>
   <p>Can&rsquo;t find something? Ask the KJ. New discs go in all the time.</p>
+  <p>Site by <a href="https://evergreenmediadesign.com/" target="_blank" rel="noopener">Evergreen Media Design</a></p>
 </footer>
 
 <button class="totop" id="totop" type="button" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 15 7-7 7 7"/></svg></button>
@@ -520,5 +521,4 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
 })();
 </script>
 </body>
-
 </html>
