@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" href="songs.json" as="fetch" crossorigin>
+  <link rel="preload" href="songs.json?v=20260924" as="fetch" crossorigin>
 <script>
 /* Dark is the default (this gets used in a bar at night). Apply a saved choice before first paint. */
 try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document.documentElement.setAttribute('data-theme',t);}catch(e){}
@@ -495,7 +495,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
 
   /* ---------- load ---------- */
   function load(){
-    fetch('songs.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(raw){
+    fetch('songs.json?v=20260924').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(raw){
       DATA=new Array(raw.length);
       for(var i=0;i<raw.length;i++){
         var t=raw[i][0], arts=raw[i][1], v=[], j, cv, names=[];
