@@ -117,6 +117,8 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   .meta b{color:var(--gold); font-weight:700}
   :root[data-theme="light"] .meta b{color:var(--code-fg)}
 
+  .hint{max-width:42rem; margin:9px auto 0; padding-inline:4px; font-size:13px; color:var(--dim)}
+  body.searching .hint{display:none}
   body.searching .hero{grid-template-rows:0fr; opacity:0}
   @media (prefers-reduced-motion:no-preference){
     .hero{transition:grid-template-rows .32s ease, opacity .2s ease}
@@ -219,7 +221,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
     <div><div class="in">
       <div class="eyebrow"><i></i>C &amp; M Entertainment &middot; Romeo, Michigan</div>
       <h1>Find your <em>song.</em></h1>
-      <p class="lede">Search <b id="total">the whole catalog</b> by title or artist. Find your request before you head out.</p>
+      <p class="lede">Find your favorites or try a new tune.</p>
     </div></div>
   </section>
 </div>
@@ -232,6 +234,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
       <input id="q" type="search" name="q" placeholder="Try a song, or an artist" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" inputmode="search">
       <button id="clr" type="button" aria-label="Clear search"><span aria-hidden="true">&times;</span></button>
     </form>
+    <p class="hint">Our database is growing all the time, so let us know if we&rsquo;re missing something you&rsquo;d like to sing!</p>
     <div class="meta"><div id="stat" role="status" aria-live="polite">Loading the song list&hellip;</div><div id="note"></div></div>
   </div>
 </div>
@@ -267,7 +270,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   'use strict';
   var $=function(id){return document.getElementById(id);};
   var Q=$('q'), RES=$('results'), STAT=$('stat'), NOTE=$('note'), CLR=$('clr'), SBAR=$('sbar'),
-      TOP=$('totop'), TOTAL=$('total'), FORM=$('form'), THEME=$('theme');
+      TOP=$('totop'), FORM=$('form'), THEME=$('theme');
   var PAGE=50, DATA=[], READY=false, hits=[], shown=0, toks=[], curQ='';
 
   /* ---------- text helpers ---------- */
@@ -508,7 +511,6 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
         DATA[i]={t:t, tn:tn, v:v, an:an, ac:ac, h:tn+' |'+an, s:0};
       }
       READY=true;
-      TOTAL.textContent=nfmt(DATA.length)+' karaoke songs';
       var q0=''; try{ q0=new URL(location.href).searchParams.get('q')||''; }catch(e){}
       Q.value=q0; render(q0); onScroll();
     }).catch(function(){
