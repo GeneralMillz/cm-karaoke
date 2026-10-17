@@ -768,3 +768,595 @@ Zappa, Frank|R|70
 Cathedrals, The|G|
 Tears For Fears|P|80
 Smash|M|10
+Cheese, Richard|P|00
+Confederate Railroad|C|90
+Dexter, Al & His Troopers|C|40
+Emerald, Caro|C|
+98 Degrees|P|90
+You're A Good Man, Charlie Brown|M|
+South Park|M|
+Commodores, The|S|70,80
+Aiken, Clay|P|00
+Seether|R|00
+Musiq (Soulchild)|S|00
+Lewis, Jerry Lee|R|50
+Peterson, Michael|C|90
+King, BB|S|60,70
+Nugent, Ted|R|70
+Pitbull|H|10
+Miller, Roger|C|60
+Chevelle|R|00
+Tillis, Mel|C|70
+Expose'|P|80
+Garland, Judy|J|40,50
+James, Tommy & The Shondells|P|60
+Lloyd|S|00
+Wayne, Jimmy|C|10
+Brown, Bobby|S|80,90
+Williams, Vanessa|S|90
+Day, Doris|J|50
+Holly, Buddy & The Crickets|R|50
+Broadway|M|
+Chapman, Tracy|R|80,90
+Stevens, Cat|R|70
+Gracin, Josh|C|00
+Birdy|P|10
+Paul, Sean|H|00
+LL Cool J|H|80,90
+Fogelberg, Dan|R|70,80
+Grass Roots, The|R|60
+Shakin' Stevens|R|80
+Hanson|P|90
+Drifters, The|S|50,60
+Plain White T's|R|00
+Sullivan, Jazmine|S|10
+Leigh, Danni|C|00
+Pantera|R|90
+Wallflowers, The|R|90
+Jackson 5|S|70
+Stone Sour|R|00
+Avicii|P|10
+System Of A Down|R|00
+Evans, Faith|S|90
+Moorer, Allison|C|90
+Fat Joe|H|00
+Toad The Wet Sprocket|R|90
+England, Tyler|C|10
+Jackson, Freddie|S|80
+Avenged Sevenfold|R|00,10
+Coasters, The|R|50,60
+Saliva|R|00
+Lynch, Stephen|C|00
+Team America World Police|M|00
+Brother Cane|R|90
+Talking Heads|R|80
+Talking Heads, The|R|80
+Tomlinson, Trent|C|00
+Kersh, David|C|00
+Boone, Pat|P|50
+Jethro Tull|R|70
+Tull, Jethro|R|70
+Simpson, Ashlee|P|00
+Jagged Edge|S|00
+Lewis, Barbara|S|60
+Shirelles, The|S|60
+Houston, David|C|60
+Ratt|R|80
+Winwood, Steve|R|80
+Dora The Explorer|K|
+O'Jays, The|S|70
+Thorogood, George & The Destroyers|R|80
+Will.I.Am|H|10
+Audioslave|R|00
+Duff, Hilary|P|00
+Brickman, Jim|P|
+Kingston, Sean|P|00
+Dashboard Confessional|R|00
+Kent, Stacey|J|
+Montana, Hannah|P|00
+Armiger, Katie|P|
+Wills, Bob & His Texas Playboys|C|40
+Spin Doctors, The|R|90
+Sevendust|R|00
+Muse|R|00,10
+Peter, Paul & Mary|R|60
+Perfect Circle, A|R|00
+Vinton, Bobby|P|60
+B.o.B|H|10
+Lonely Island, The|H|00,10
+Manhattan Transfer|J|80
+Springfield, Dusty|P|60
+Rhymes, Busta|H|00
+Merchant, Natalie|R|90
+Breaking Benjamin|R|00
+Zombie, Rob|R|00
+Mamas & The Papas, The|R|60
+Mamas & The Papas|R|60
+Gore, Leslie|P|60
+Redding, Otis|S|60
+Atlanta Rhythm Section|R|70
+Culture Club (Boy George)|P|80
+Foster, Radney|C|90
+Pretty Reckless|R|10
+Richey, Kim|C|90
+Young, Paul|P|80
+Clark, Roy|C|60,70
+Lang, KD|C|90
+Starship (Jefferson Starship)|R|80
+Starship (AKA Jefferson Starship)|R|80
+Phair, Liz|R|90
+New Kids On The Block|P|80,90
+Death Cab For Cutie|R|00
+Hayes, Hunter|C|10
+Martha & The Vandellas|S|60
+Wilson Phillips|P|90
+Phillips, Wilson|P|90
+My Chemical Romance|R|00
+Cox, Deborah|S|90
+Branigan, Laura|P|80
+Salt 'n Pepa|H|90
+Cinderella|R|80
+Clark, Petula|P|60
+Atomic Kitten|P|00
+Crabb Family, The|G|
+Uncle Kracker|R|00
+Righteous Brothers, The|P|60
+Hornsby, Bruce|R|80
+Tedeschi, Susan|R|00
+Cure, The|R|80
+Simon, Paul|R|70,80
+Cole, Paula|R|90
+David, Craig|S|00
+Whitesnake|R|80
+Tenacious D|R|00
+Little Richard|R|50
+Tubb, Ernest|C|40,50
+Desert Rose Band, The|C|80
+Eve 6|R|90
+Loverboy|R|80
+Bice, Bo|P|00
+Young Jeezy|H|00
+Tonic|R|90
+Musgraves, Kacey|C|10
+Vaughan, Sarah|J|50
+Wreckers, The|C|00
+Amerie|S|00
+Morris, Gary|C|80
+Skid Row|R|80
+Our Lady Peace|R|90
+Pickett, Wilson|S|60
+Carlton, Vanessa|P|00
+Bryson, Peabo|S|80,90
+Paloma Faith|P|10
+Trainor, Meghan|P|10
+Phantom Of The Opera|M|
+Roxette|P|80,90
+Campbell, Tevin|S|90
+Ja Rule|H|00
+Gray, Macy|S|00
+Ciara|S|00
+Goldsboro, Bobby|P|60
+Blood, Sweat & Tears|R|70
+Akon|H|00
+Newton, Juice|P|80
+Seals, Brady|C|
+Wright, Michelle|C|90
+Levert, Gerald|S|90
+West, Dottie|C|70
+Xscape|S|90
+Price, Kelly|S|00
+Sandler, Adam|P|90
+Coffey, Kellie|C|10
+Celtic Woman|P|00
+Hole|R|90
+Jackson, Stonewall|C|60
+McDaniel, Mel|C|80
+Take That|P|90
+All Time Low|R|00
+Peters, Red|C|
+Rundgren, Todd|R|70
+4 Him|G|
+Cartwright, Lionel|C|80
+Cats|M|
+JLS|P|10
+Combs, Luke|C|10
+Comes, Luke|C|10
+Marley, Ziggy & The Melody Makers|R|80
+Beyonce|S|00,10
+Young Rascals|R|60
+Rhett, Thomas|C|10
+Tyler, Bonnie|R|80
+Drake|H|10
+Martin, Ricky|P|90
+Fiasco, Lupe|H|00
+Soundgarden|R|90
+Mann, Manfred|R|60
+Supertramp|R|70
+Fogerty, John|R|70,80
+Asleep At The Wheel|C|70
+Jackson, Joe|R|80
+Corrs, The|P|90
+Ben Folds Five|R|90
+Stapleton, Chris|C|10
+Blue's Clues|K|
+Rage Against The Machine|R|90
+Twisted Sister|R|80
+Jonas Brothers|P|00,10
+Robyn|P|10
+Archuleta, David|P|00
+New Edition|S|80
+White, Barry|S|70
+Ferdinand, Franz|R|00
+Rose Royce|S|70
+Kansas|R|70
+Revere, Paul & The Raiders|R|60
+Warrant|R|80,90
+Flack, Roberta|S|70
+Abdul, Paula|P|80,90
+Manchester, Melissa|P|70
+Lewis, Gary & The Playboys|R|60
+Husky, Ferlin|C|50
+Raven, Eddy|C|80
+Cole, Cheryl|P|10
+Astley, Rick|P|80
+Arctic Monkeys, The|R|00,10
+Cochran, Anita|C|10
+B-52's|R|80
+McClain, Charly|C|80
+Kid Cudi|H|00,10
+Oingo Boingo|R|80
+Taking Back Sunday|R|00
+Beck|R|90
+Bassey, Shirley|J|60
+Volbeat|R|10
+Daft Punk|P|00,10
+Cake|R|90
+Puckett, Gary & The Union Gap|P|60
+Smith, Carl|C|50
+S Club 7|P|00
+Firehouse|R|90
+Royal, Billy Joe|C|70
+Sylvia|C|80
+Combs, Michael|C|
+Kentucky Headhunters, The|C|90
+Gilman, Billy|C|00
+Jones, Howard|P|80
+Sum 41|R|00
+Black Keys, The|R|10
+Kem|S|00
+Perry, Steve|R|80
+Simply Red|P|80,90
+Lambert, Adam|P|10
+Snoop (Doggy) Dogg|H|90
+Scott, Jill|S|00
+AFI|R|00
+Lil' Wayne|H|00,10
+Lil Wayne|H|00,10
+Future|H|10
+Little Mix|P|10
+Armstrong, Louis|J|50
+Tyrese|S|90,00
+Checker, Chubby|P|60
+Mellons, Ken|C|
+Band, The|R|60,70
+Soul Asylum|R|90
+Sharp, Kevin|C|00
+Starr, Ringo|R|70
+Rawls, Lou|S|70
+Janson, Chris|C|00
+Metro Station|P|00
+Gorillaz|R|00
+Chapin, Harry|R|70
+McComas, Brian|C|00
+Iron Maiden|R|80
+Miguel|S|10
+McDonald, Michael|R|80
+Withers, Bill|S|70
+Gray, David|R|00
+Sister Hazel|R|90
+Wicks, Chuck|C|00
+Kearney, Mat|C|00
+K-Ci & JoJo|S|90
+O-Town|P|00
+Cross, Christopher|R|80
+Default|R|00
+Used, The|R|00
+Harrison, George|R|70
+The Band Perry|C|10
+Association, The|R|60
+Allen, Kris|P|00
+Young, Eli (Eli Young Band)|C|10
+Paige, Jennifer|C|00
+Enya|P|90
+McElderry, Joe|P|10
+5 Seconds Of Summer|P|10
+Hudson, Jennifer|S|00
+Drake, Dusty|C|
+Tony! Toni! Tone!|S|90
+Lynne, Shelby|C|90
+Rich, John|C|00
+Ewing, Skip|C|00
+Anthrax|R|80
+Matthews, Dave|R|90,00
+Green, Vivian|R|00
+Thompson Square|C|10
+Badfinger|R|70
+Brown, Shannon|C|00
+Milli Vanilli|P|80
+Ltd|S|70
+Berg, Matraca|C|90
+Juvenile|H|00
+Bastille|R|10
+Burke, Alexandra|P|10
+Damn Yankees|R|90
+Ying-Yang Twins, The|H|00
+Hart, Beth|R|10
+Belafonte, Harry|J|50
+Rex, T|R|70
+Sinatra, Nancy|P|60
+Ezra, George|P|10
+Isaacs, Sonya|G|
+Robison, Charlie|C|00
+Michaelson, Ingrid|P|00
+Banks, Lloyd|H|00
+Ramones, The|R|70
+All 4 One|S|90
+McCartney, Jesse|P|00
+Dave Clark Five|R|60
+10,000 Maniacs|R|80,90
+Jane's Addiction|R|90
+Blur|R|90
+Chingy|H|00
+Mitchell, Joni|R|70
+Boy Howdy|C|90
+Jeremih|S|10
+Foxx, Jamie|S|00
+Dunn, Ronnie|C|90
+Del Rey, Lana|P|10
+Rascal, Dizzee|H|00
+Fabolous|H|00
+Green, Cee-Lo|S|00
+Traveler, Blues|R|90
+Roth, David Lee|R|80
+Vamps, The|P|10
+Songz, Trey|S|10
+Rowland, Kelly|S|00
+Orlando, Tony & Dawn|P|70
+Jay & The Americans|P|60
+Grateful Dead|R|70
+Donovan|R|60
+Tesla|R|80
+Dishwalla|R|90
+Snow Patrol|R|00
+Joey & Rory|C|10
+Tempah, Tinie|H|10
+Canned Heat|R|60
+Carlisle, Belinda|P|80
+Adams, Oleta|S|90
+War|S|70
+Gym Class Heroes|H|00
+Wagoner, Porter|C|60,70
+Vee, Bobby|P|60
+Clooney, Rosemary|J|50
+Candlebox|R|90
+Bananarama|P|80
+D'Angelo|S|90,00
+Duffy|P|00
+Crystals, The|S|60
+Switchfoot|R|00
+Jan & Dean|R|60
+Seals & Croft|P|70
+Cold|R|00
+Keane|R|00
+Thompson Twins, The|P|80
+Lobo|P|70
+Studdard, Ruben|S|00
+Days Of The New|R|90
+Run DMC|H|80
+Stewart, Gary|C|70
+Presidents Of The USA, The|R|90
+Turtles, The|R|60
+Benton, Brook|S|60
+Omarion|S|00
+Cascada|P|00
+LFO|P|90
+Squier, Billy|R|80
+Barlow, Gary|P|90
+Jordan, Montell|S|90
+Mercyme|G|
+Cult, The|R|80
+Lamontagne, Ray|R|00
+Williams, Deniece|S|70,80
+Snoop Doggy Dogg|H|90
+Locklin, Hank|C|50
+Mary Mary|G|
+Tennison, Chalee|C|00
+West, Kayne|H|00
+Blue County|C|00
+Vitamin C|P|00
+Boys Like Girls|R|00
+Sponge|R|90
+Reeves, Ronna|C|
+Kendalls, The|C|70
+Staple Singers, The|S|70
+Jewell, Buddy|C|00
+Sayer, Leo|P|70
+Lewis, Donna|P|00
+Fox, Samantha|P|80
+Hill, Dru|S|90
+Muppets, The|K|
+Barnett, Mandy|C|00
+Imbruglia, Natalie|P|90
+Village People, The|P|70
+Pet Shop Boys, The|P|80
+Nickel Creek|C|00
+Steel Magnolia|C|10
+Dem Franchize Boyz|H|00
+Pretty Ricky|S|00
+Searchers, The|R|60
+XTC|R|80
+Dire Straits|R|80
+Great White|R|80
+Neon Trees|R|10
+Plant, Robert|R|70,80
+Ward, ZZ|C|00
+Drowning Pool|R|00
+Allen, Gary|C|90
+Smith, Michael W|G|
+Silverchair|R|90
+Karmin|P|10
+Hammer, MC|H|90
+Tool|R|90
+Van Zant|R|00
+Wu Tang Clan|H|90
+Lott, Pixie|P|00
+Flyleaf|R|00
+Carmen, Eric|P|70
+Loeb, Lisa|R|90
+Mike & The Mechanics|R|80
+McClinton, Delbert|C|80
+Sick Puppies|R|00
+Debarge|S|80
+DeBarge (El Debarge)|S|80
+Coolidge, Rita|P|70
+DMX|H|90
+Python, Monty|K|
+Nightwish|R|00
+McLean, Don|R|70
+Guster|R|00
+Love & Theft|C|10
+Jet|R|00
+Lee, Amos|J|00
+Tantric|R|00
+Anthony, Ray|J|50
+Ian, Janis|R|70
+Hyland, Brian|P|60
+Jojo|P|00
+Tractors, The|C|90
+Them|R|60
+Waters, Muddy|S|50,60
+Peter & Gordon|R|60
+BBMak|P|00
+Babys, The|R|70
+Deftones, The|R|00
+Aqua|P|90
+Ford, Lita|R|80
+Powter, Daniel|P|00
+Melvin, Harold & The Blue Notes|S|70
+Bloodhound Gang, The|R|90
+B2K|S|00
+Sweet|R|70
+Hot Hot Heat|R|00
+Sheik, Duncan|R|90
+Hurricane Chris|H|00
+Kadison, Joshua|P|90
+Blackstreet|S|90
+Fender, Freddie|C|70
+Vertical Horizon|R|00
+Filter|R|90
+Post Malone|H|10,20
+Melua, Katie|P|00
+Cafferty, John & The Beaver Brown Band|R|80
+Ambrosia|R|70
+Brooks, Meredith|R|90
+Big Head Todd & The Monsters|R|90
+Everlast|H|90
+Dubliners, The|R|60
+Perkins, Carl|R|50
+Jarreau, Al|J|80
+Ice Cube|H|90
+Steppenwolf|R|60,70
+A-Teens, The|P|00
+Selena|P|90
+Melanie|R|70
+Trower, Robin|R|70
+Mase|H|90
+TuPac|H|90
+Valli, Frankie|P|60,70
+Marshall Tucker Band, The|R|70
+Davis, Sammy Jr|J|50,60
+Jamiroquai|P|90
+Lightfoot, Gorden|R|70
+Wham!|P|80
+Arena, Tina|P|90
+LMFAO|P|10
+Foley, Red|C|50
+Nine Inch Nails|R|90
+Rae, Corinne Bailey|S|00
+Gomez, Selena|P|10
+Smith, Mindy|C|00
+Lohan, Lindsay|P|00
+Big KRIT|H|10
+Earle, Steve|C|80
+Highwaymen, The|C|80
+Ford, Tennessee Ernie|C|50
+Wallen, Morgan|C|20
+Stafford, Jim|P|70
+Foster & Lloyd|C|80
+Jets, The|P|80
+Box Tops, The|R|60
+Quiet Riot|R|80
+Seven Mary Three|R|90
+D'Arby, Terence Trent|S|80
+Cam'Ron|H|00
+Bentley, Stephanie|C|00
+Avalon, Frankie|P|50
+Sparxxx, Bubba|H|00
+Ant, Adam|P|80
+Los Lonely Boys|R|00
+Lovin' Spoonful|R|60
+Danzig|R|90
+Manson, Marilyn|R|90
+Little Feat|R|70
+Roe, Tommy|P|60
+Captain & Tennille|P|70
+Partridge Family, The|P|70
+Electric Light Orchestra, The|R|70
+Yazoo|P|80
+Black-Eyed Peas|H|00
+Silk|S|90
+Night Ranger|R|80
+3OH!3|P|10
+Human League, The|P|80
+Winger|R|80
+Uriah Heep|R|70
+Hart, Freddie|C|70
+Gypsy Kings|P|80,90
+Concrete Blonde|R|90
+Zevon, Warren|R|70
+Survivor|R|80
+New Found Glory|R|00
+Fastball|R|90
+Travis|R|00
+Heatherly, Eric|C|00
+Rea, Chris|R|80
+Yardbirds, The|R|60
+King, Matt|C|90
+702|S|90
+Common|H|00
+Smiths, The|R|80
+Twista|H|00
+Little Anthony & The Imperials|S|60
+Cracker|R|90
+Rise Against|R|00
+Clipse|H|00
+Chi-Lites, The|S|70
+Go-Go's, The|R|80
+Eurythmics, The|P|80
+Eurythmics, The (Annie Lennox)|P|80
+Rufus|S|70
+Gloriana|C|10
+Anastacia|P|00
+Les Miserables|M|
+Ritter, Tex|C|40
+McPhee, Katharine|P|00
+Dr. Dre|H|90
+Orrico, Stacie|P|00
+Bone Thugs|H|90
+Simone, Nina|J|60
+Gokey, Danny|P|00
+Morrison, James|P|00
+Price, Lloyd|S|50
+Mendes, Shawn|P|10
+Chaka Khan|S|70,80
+Cox, Deborah|S|90

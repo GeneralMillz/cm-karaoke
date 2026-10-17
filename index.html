@@ -572,7 +572,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
 
   /* ---------- load ---------- */
   function load(){
-    var tagsP=fetch('tags.json?v=20261017').then(function(r){ return r.ok?r.json():{}; }).catch(function(){ return {}; });
+    var tagsP=fetch('tags.json?v=20261018').then(function(r){ return r.ok?r.json():{}; }).catch(function(){ return {}; });
     fetch('songs.json?v=20260924').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(raw){ return tagsP.then(function(tg){
       Object.keys(tg).forEach(function(k){ var p=tg[k].split('|'); TAGS[k]={g:p[0], d:p[1]?p[1].split(','):[]}; });
       return raw; });
