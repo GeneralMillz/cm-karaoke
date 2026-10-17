@@ -127,9 +127,20 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   .meta b{color:var(--gold); font-weight:700}
   :root[data-theme="light"] .meta b{color:var(--code-fg)}
 
+  /* genre + decade filters */
+  .filters{max-width:42rem; margin:10px auto 0; padding-inline:max(var(--gutter),env(safe-area-inset-left)) max(var(--gutter),env(safe-area-inset-right))}
+  .frow{display:flex; align-items:center; gap:8px; margin-top:8px}
+  .frow>b{flex:none; width:60px; white-space:nowrap; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .fchips{display:flex; gap:6px; overflow-x:auto; padding:2px 2px 4px; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+  .fchips::-webkit-scrollbar{display:none}
+  .fchip{flex:none; min-height:36px; padding:0 13px; border:1px solid var(--line); border-radius:999px; background:var(--panel);
+         color:var(--dim); font-size:13.5px; font-weight:600; cursor:pointer; white-space:nowrap}
+  .fchip[aria-pressed="true"]{background:var(--hot-btn); border-color:transparent; color:#fff}
+  .fnote{margin:8px 0 0; padding-inline:2px; font-size:12.5px; color:var(--faint); display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .fnote button{border:0; background:none; padding:6px 0; color:var(--hot); font-size:12.5px; font-weight:700; cursor:pointer; text-decoration:underline}
   .hint{max-width:42rem; margin:9px auto 0; padding-inline:4px; font-size:13px; color:var(--dim)}
-  body.searching .hint{display:none}
-  body.searching .hero{grid-template-rows:0fr; opacity:0}
+  body.searching .hint,body.filtering .hint{display:none}
+  body.searching .hero,body.filtering .hero{grid-template-rows:0fr; opacity:0}
   @media (prefers-reduced-motion:no-preference){
     .hero{transition:grid-template-rows .32s ease, opacity .2s ease}
     .chip,.pill,.iconbtn,.song{transition:border-color .15s, background-color .15s, transform .12s}
@@ -267,6 +278,12 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   </div>
 </div>
 
+<div class="filters" id="filters" hidden>
+  <div class="frow"><b>Genre</b><div class="fchips" id="fgenre" role="group" aria-label="Filter by genre"></div></div>
+  <div class="frow"><b>Decade</b><div class="fchips" id="fdecade" role="group" aria-label="Filter by decade"></div></div>
+  <p class="fnote" id="fnote" hidden></p>
+</div>
+
 <main class="wrap" id="main">
   <div id="results">
     <div class="skel" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -299,13 +316,32 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   var $=function(id){return document.getElementById(id);};
   var Q=$('q'), RES=$('results'), STAT=$('stat'), NOTE=$('note'), CLR=$('clr'), SBAR=$('sbar'),
       TOP=$('totop'), FORM=$('form'), THEME=$('theme');
-  var PAGE=50, DATA=[], READY=false, hits=[], shown=0, toks=[], curQ='';
+  var PAGE=50, GEN=null, DEC=null, TAGS={}, DATA=[], READY=false, hits=[], shown=0, toks=[], curQ='';
 
   /* ---------- text helpers ---------- */
   function esc(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function strip(s){return s.normalize?s.normalize('NFD').replace(/[̀-ͯ]/g,''):s;}
   /* lowercase, no accents, apostrophes dropped, punctuation to spaces: "Don't" -> "dont", "Rock-a-bye" -> "rock a bye" */
   function norm(s){return strip(s).toLowerCase().replace(/['’`]/g,'').replace(/&/g,' and ').replace(/[^a-z0-9]+/g,' ').trim();}
+  var GENRES=[['C','Country'],['R','Rock'],['P','Pop'],['S','R&B & Soul'],['H','Hip-Hop'],['J','Standards & Jazz'],['M','Musicals & TV'],['X','Christmas'],['G','Gospel'],['K','Kids']];
+  var DECADES=[['50','50s & earlier'],['60','60s'],['70','70s'],['80','80s'],['90','90s'],['00','2000s'],['10','2010s'],['20','2020s']];
+  function matchesFilter(d){
+    for(var i=0;i<d.v.length;i++){
+      var t=d.v[i].tag; if(!t) continue;
+      if(GEN&&t.g!==GEN) continue;
+      if(DEC&&t.d.indexOf(DEC)<0) continue;
+      return true;
+    }
+    return false;
+  }
+  function chipsHTML(list,cur,key){ return list.map(function(x){ return '<button class="fchip" type="button" data-'+key+'="'+x[0]+'" aria-pressed="'+(cur===x[0])+'">'+esc(x[1])+'</button>'; }).join(''); }
+  function drawFilters(){
+    $('fgenre').innerHTML=chipsHTML(GENRES,GEN,'g');
+    $('fdecade').innerHTML=chipsHTML(DECADES,DEC,'d');
+    var n=$('fnote');
+    if(GEN||DEC){ n.hidden=false; n.innerHTML='<span>Filters cover our most-requested artists, so some songs won&rsquo;t show up here.</span><button type="button" id="fclear">Clear filters</button>'; }
+    else n.hidden=true;
+  }
   function nfmt(n){return n.toLocaleString('en-US');}
 
   /* The catalog lists artists as "Last, First". People type "First Last". Show it the friendly way (search handles both). */
@@ -453,26 +489,29 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
 
   function render(qs){
     if(!READY) return;
-    curQ=qs; var trimmed=qs.trim();
+    curQ=qs; var trimmed=qs.trim(), filt=!!(GEN||DEC);
     CLR.style.display=qs?'grid':'none';
     document.body.classList.toggle('searching',!!trimmed);
+    document.body.classList.toggle('filtering',filt);
     NOTE.textContent='';
-    if(!trimmed){
+    if(!trimmed && !filt){
       toks=[]; hits=[]; shown=0; welcome();
       STAT.textContent=nfmt(DATA.length)+' songs on the machine'; return;
     }
     var nq=norm(trimmed);
-    if(nq.length<2){ toks=[]; hits=[]; shown=0; RES.innerHTML=''; STAT.textContent='Keep typing…'; return; }
-    hits=run(qs); shown=0;
+    if(trimmed && nq.length<2){ toks=[]; hits=[]; shown=0; RES.innerHTML=''; STAT.textContent='Keep typing…'; return; }
+    hits=trimmed?run(qs):DATA.slice(); shown=0;
+    if(!trimmed) toks=[];
+    if(filt) hits=hits.filter(matchesFilter);
     if(!hits.length){
       STAT.textContent='No matches';
-      RES.innerHTML='<div class="none"><div class="big">Nothing for “'+esc(trimmed)+'”</div>'+
-        '<p>Try fewer words, or just the artist’s last name. If it’s still not there, ask the KJ. New discs go in all the time.</p>'+
+      RES.innerHTML='<div class="none"><div class="big">'+(trimmed?'Nothing for “'+esc(trimmed)+'”':'Nothing here yet')+'</div>'+
+        '<p>'+(filt?'Try a different filter or clear them. Filters only cover our most-requested artists, so the song may still be on the machine.':'Try fewer words, or just the artist’s last name. If it’s still not there, ask the KJ. New discs go in all the time.')+'</p>'+
         '<a class="pill call" href="tel:+15865313100">Call (586) 531-3100</a></div>';
       return;
     }
     STAT.innerHTML='<b>'+nfmt(hits.length)+'</b> '+(hits.length===1?'song':'songs')+' found';
-    NOTE.textContent=hits.length>1?'Best matches first':'';
+    NOTE.textContent=(hits.length>1&&trimmed)?'Best matches first':'';
     paint(false);
   }
 
@@ -481,7 +520,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   function syncURL(){
     clearTimeout(urlTimer);
     urlTimer=setTimeout(function(){
-      try{ var u=new URL(location.href); if(Q.value.trim()) u.searchParams.set('q',Q.value.trim()); else u.searchParams.delete('q'); history.replaceState(null,'',u); }catch(e){}
+      try{ var u=new URL(location.href); if(Q.value.trim()) u.searchParams.set('q',Q.value.trim()); else u.searchParams.delete('q'); if(GEN) u.searchParams.set('g',GEN); else u.searchParams.delete('g'); if(DEC) u.searchParams.set('d',DEC); else u.searchParams.delete('d'); history.replaceState(null,'',u); }catch(e){}
     },400);
   }
   Q.addEventListener('input',function(){ clearTimeout(timer); timer=setTimeout(function(){render(Q.value); syncURL();},90); CLR.style.display=Q.value?'grid':'none'; });
@@ -491,6 +530,13 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
     var c=e.target.closest('.chip');
     if(c){ Q.value=c.getAttribute('data-s'); render(Q.value); syncURL(); window.scrollTo(0,0); return; }
     if(e.target.closest('#more')){ paint(true); }
+  });
+  $('filters').addEventListener('click',function(e){
+    var b=e.target.closest('.fchip,#fclear'); if(!b) return;
+    if(b.id==='fclear'){ GEN=null; DEC=null; }
+    else if(b.hasAttribute('data-g')){ GEN=(GEN===b.getAttribute('data-g'))?null:b.getAttribute('data-g'); }
+    else { DEC=(DEC===b.getAttribute('data-d'))?null:b.getAttribute('data-d'); }
+    drawFilters(); render(Q.value); syncURL();
   });
   document.addEventListener('keydown',function(e){
     if(e.key==='/' && document.activeElement!==Q && !e.metaKey && !e.ctrlKey){ e.preventDefault(); Q.focus(); }
@@ -526,19 +572,30 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
 
   /* ---------- load ---------- */
   function load(){
-    fetch('songs.json?v=20260924').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(raw){
+    var tagsP=fetch('tags.json?v=20261017').then(function(r){ return r.ok?r.json():{}; }).catch(function(){ return {}; });
+    fetch('songs.json?v=20260924').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(raw){ return tagsP.then(function(tg){
+      Object.keys(tg).forEach(function(k){ var p=tg[k].split('|'); TAGS[k]={g:p[0], d:p[1]?p[1].split(','):[]}; });
+      return raw; });
+    }).then(function(raw){
       DATA=new Array(raw.length);
       for(var i=0;i<raw.length;i++){
         var t=raw[i][0], arts=raw[i][1], v=[], j, cv, names=[];
         for(j=0;j<arts.length;j++){
           cv=cleanVersion(arts[j][0],arts[j][1]);
-          var nn=norm(cv.n); v.push({n:cv.n, p:pretty(cv.n), nn:nn, cn:nn.replace(/ /g,''), codes:cv.codes});
+          var nn=norm(cv.n); v.push({n:cv.n, p:pretty(cv.n), nn:nn, cn:nn.replace(/ /g,''), codes:cv.codes, tag:TAGS[cv.n]||null});
           if(cv.n) names.push(nn);
         }
         var tn=norm(t), an=' '+names.join(' | '), ac=' '+names.map(function(x){return x.replace(/ /g,'');}).join(' ');
         DATA[i]={t:t, tn:tn, v:v, an:an, ac:ac, h:tn+' |'+an, s:0};
       }
       READY=true;
+      if(Object.keys(TAGS).length){
+        $('filters').hidden=false;
+        try{ var u0=new URL(location.href); GEN=u0.searchParams.get('g'); DEC=u0.searchParams.get('d'); }catch(e){}
+        if(!GENRES.some(function(x){return x[0]===GEN;})) GEN=null;
+        if(!DECADES.some(function(x){return x[0]===DEC;})) DEC=null;
+        drawFilters();
+      }
       var q0=''; try{ q0=new URL(location.href).searchParams.get('q')||''; }catch(e){}
       Q.value=q0; render(q0); onScroll();
     }).catch(function(){
