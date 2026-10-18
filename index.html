@@ -145,6 +145,11 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   .fchip{flex:none; min-height:36px; padding:0 13px; border:1px solid var(--line); border-radius:999px; background:var(--panel);
          color:var(--dim); font-size:13.5px; font-weight:600; cursor:pointer; white-space:nowrap}
   .fchip[aria-pressed="true"]{background:var(--hot-btn); border-color:transparent; color:#fff}
+  .fnote[hidden]{display:none}
+  .ftoggle{display:flex; align-items:center; gap:6px; min-height:40px; padding:0 4px; border:0; background:none; color:var(--dim); font-size:14px; font-weight:600; cursor:pointer}
+  .ftoggle svg{width:16px; height:16px; transition:transform .2s}
+  .ftoggle[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .ftoggle.on{color:var(--hot)}
   .fnote{margin:8px 0 0; padding-inline:2px; font-size:12.5px; color:var(--faint); display:flex; gap:10px; align-items:center; flex-wrap:wrap}
   .fnote button{border:0; background:none; padding:6px 0; color:var(--hot); font-size:12.5px; font-weight:700; cursor:pointer; text-decoration:underline}
   .fchips::after{content:""; flex:none; width:28px}
@@ -238,12 +243,17 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
     .book{padding:38px 30px}
   }
   @media (max-width:520px){
+    .eyebrow{display:none}
     .top{padding-block:calc(10px + env(safe-area-inset-top,0px)) 2px}
     .hero .in{padding:12px 0 8px}
     h1{margin-top:8px; font-size:clamp(52px,16vw,72px)}
     .lede{margin-top:10px; font-size:17px}
     .searchbar{padding-block:8px 6px}
-    #q{height:56px; border-radius:10px}
+    #q{height:62px; border-radius:12px; font-size:18px; border-color:var(--hot); box-shadow:0 0 0 4px rgba(255,61,87,.18), var(--shadow)}
+    .field>svg{left:18px; width:22px; height:22px}
+    #q{padding-left:52px}
+    .hint{font-size:12.5px; color:var(--faint)}
+    .filters{margin-top:4px}
     .hint{margin-top:8px; font-size:13.5px; line-height:1.4}
     .meta{margin-top:6px}
     .welcome h2{margin-top:18px}
@@ -311,9 +321,12 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
 </div>
 
 <div class="filters" id="filters" hidden>
-  <div class="frow"><b>Genre</b><div class="fchips" id="fgenre" role="group" aria-label="Filter by genre"></div></div>
-  <div class="frow"><b>Decade</b><div class="fchips" id="fdecade" role="group" aria-label="Filter by decade"></div></div>
-  <p class="fnote" id="fnote" hidden></p>
+  <button class="ftoggle" id="ftoggle" type="button" aria-expanded="false" aria-controls="fpanel"><span id="flabel">Filter by genre or decade</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+  <div id="fpanel" hidden>
+    <div class="frow"><b>Genre</b><div class="fchips" id="fgenre" role="group" aria-label="Filter by genre"></div></div>
+    <div class="frow"><b>Decade</b><div class="fchips" id="fdecade" role="group" aria-label="Filter by decade"></div></div>
+    <p class="fnote" id="fnote" hidden></p>
+  </div>
 </div>
 
 <main class="wrap" id="main">
@@ -369,6 +382,9 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   }
   function chipsHTML(list,cur,key){ return list.map(function(x){ return '<button class="fchip" type="button" data-'+key+'="'+x[0]+'" aria-pressed="'+(cur===x[0])+'">'+esc(x[1])+'</button>'; }).join(''); }
   function drawFilters(){
+    var lab=[]; GENRES.forEach(function(x){ if(x[0]===GEN) lab.push(x[1]); }); DECADES.forEach(function(x){ if(x[0]===DEC) lab.push(x[1]); });
+    $('flabel').textContent=lab.length?'Filters: '+lab.join(' · '):'Filter by genre or decade';
+    $('ftoggle').classList.toggle('on',lab.length>0);
     $('fgenre').innerHTML=chipsHTML(GENRES,GEN,'g');
     $('fdecade').innerHTML=chipsHTML(DECADES,DEC,'d');
     var n=$('fnote');
@@ -409,6 +425,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   }
   function hideList(){ SHOWLIST=false; $('mylist').setAttribute('aria-pressed','false'); $('listbar').hidden=true; }
   var BYKEY={};
+  function setPanel(open){ $('fpanel').hidden=!open; $('ftoggle').setAttribute('aria-expanded',open); }
   function nfmt(n){return n.toLocaleString('en-US');}
 
   /* The catalog lists artists as "Last, First". People type "First Last". Show it the friendly way (search handles both). */
@@ -608,6 +625,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
       if(SHOWLIST && !on){ var li=f.closest('.song'); if(li) li.parentNode.removeChild(li); hits=hits.filter(function(d){return d.k!==k;}); STAT.innerHTML=hits.length?'<b>'+hits.length+'</b> '+(hits.length===1?'song':'songs')+' on my list':'My list is empty'; drawListBar(); }
     }
   });
+  $('ftoggle').addEventListener('click',function(){ setPanel($('fpanel').hidden); });
   $('filters').addEventListener('click',function(e){
     var b=e.target.closest('.fchip,#fclear'); if(!b) return;
     if(b.id==='fclear'){ GEN=null; DEC=null; }
@@ -685,7 +703,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
         try{ var u0=new URL(location.href); GEN=u0.searchParams.get('g'); DEC=u0.searchParams.get('d'); }catch(e){}
         if(!GENRES.some(function(x){return x[0]===GEN;})) GEN=null;
         if(!DECADES.some(function(x){return x[0]===DEC;})) DEC=null;
-        drawFilters();
+        drawFilters(); if(GEN||DEC) setPanel(true);
       }
       var q0=''; try{ q0=new URL(location.href).searchParams.get('q')||''; }catch(e){}
       Q.value=q0; render(q0); onScroll();
