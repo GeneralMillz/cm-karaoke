@@ -170,6 +170,8 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
   .listbar p{margin:0 0 12px; color:var(--dim); font-size:14px}
   .listbar .actions{gap:8px}
   .listbar .pill{height:44px}
+  body:not(.searching):not(.filtering) .meta{display:none}
+  #hcount{color:var(--faint)}
   .hint{max-width:42rem; margin:9px auto 0; padding-inline:4px; font-size:13px; color:var(--dim)}
   body.searching .hint,body.filtering .hint{display:none}
   body.searching .hero,body.filtering .hero{grid-template-rows:0fr; opacity:0}
@@ -315,10 +317,11 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
       <input id="q" type="search" name="q" placeholder="Try a song, or an artist" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" inputmode="search">
       <button id="clr" type="button" aria-label="Clear search"><span aria-hidden="true">&times;</span></button>
     </form>
-    <p class="hint">Our database is growing all the time, so let us know if we&rsquo;re missing something you&rsquo;d like to sing!</p>
     <div class="meta"><div id="stat" role="status" aria-live="polite">Loading the song list&hellip;</div><div id="note"></div></div>
   </div>
 </div>
+
+<div class="wrap"><p class="hint">Our database is growing all the time, so let us know if we&rsquo;re missing something you&rsquo;d like to sing!<br><span id="hcount"></span></p></div>
 
 <div class="filters" id="filters" hidden>
   <button class="ftoggle" id="ftoggle" type="button" aria-expanded="false" aria-controls="fpanel"><span id="flabel">Filter by genre or decade</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
@@ -510,7 +513,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
     toks=tk; var found=[], n=DATA.length, i, j, d, ok, fb=tk.length===1;
     for(i=0;i<n;i++){
       d=DATA[i]; ok=true;
-      for(j=0;j<tk.length;j++){ if(d.h.indexOf(tk[j])<0 && !(fb && d.ac.indexOf(tk[j])>-1)){ ok=false; break; } /* one-word fallback: "acdc" finds "AC DC" */ }
+      for(j=0;j<tk.length;j++){ if(d.h.indexOf(tk[j])<0 && !(fb && d.ac.indexOf(' '+tk[j])>-1)){ ok=false; break; } /* one-word fallback: "acdc" finds "AC DC" */ }
       if(ok){ d.s=score(d,tk,qn); found.push(d); }
     }
     found.sort(function(a,b){return b.s-a.s;}); /* stable: ties stay in catalog (A-Z) order */
@@ -581,7 +584,7 @@ try{var t=localStorage.getItem('cm-theme'); if(t==='light'||t==='dark') document
     NOTE.textContent='';
     if(!trimmed && !filt){
       toks=[]; hits=[]; shown=0; welcome();
-      STAT.textContent=nfmt(DATA.length)+' songs on the machine'; return;
+      STAT.textContent=nfmt(DATA.length)+' songs on the machine'; $('hcount').textContent=STAT.textContent; return;
     }
     var nq=norm(trimmed);
     if(trimmed && nq.length<2){ toks=[]; hits=[]; shown=0; RES.innerHTML=''; STAT.textContent='Keep typing…'; return; }
